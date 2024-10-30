@@ -1,0 +1,138 @@
+ALTER TABLE galaxy ADD COLUMN name VARCHAR(30) NOT NULL UNIQUE, ADD COLUMN description TEXT NOT NULL, ADD COLUMN has_life BOOLEAN, ADD COLUMN is_spherical BOOLEAN, ADD COLUMN planet_types VARCHAR(30), ADD COLUMN galaxy_types VARCHAR(30), ADD COLUMN distance_from_earth INT;
+
+
+
+- Complete the tasks below
+
+- You should create a database named universe
+ㄴ CREATE DATABASE universe;
+
+Be sure to connect to your database with \c universe. Then, you should add tables named galaxy, star, planet, and moon
+Your database should have at least five tables
+ㄴ \c universe;
+    CREATE TABLE galaxy();
+    CREATE TABLE star();
+    CREATE TABLE planet();
+    CREATE TABLE moon();
+    CREATE TABLE earth();
+
+
+Each table should have a primary key
+Each primary key should automatically increment
+All columns named name should be of type VARCHAR
+You should use the TEXT data type at least once
+You should use the BOOLEAN data type on at least two columns
+At least two columns per table should not accept NULL values
+You should use the INT data type for at least two columns that are not a primary or foreign key
+The galaxy, star, planet, and moon tables should each have at least five columns
+Each primary key column should follow the naming convention table_name_id. For example, the moon table should have a primary key column named moon_id
+At least one column from each table should be required to be UNIQUE
+Each table should have at least three columns
+Each foreign key column should have the same name as the column it is referencing
+ㄴ  
+
+ALTER TABLE galaxy ADD COLUMN galaxy_id SERIAL PRIMARY KEY, 
+ADD COLUMN name VARCHAR(30) NOT NULL UNIQUE, 
+ADD COLUMN description TEXT NOT NULL, 
+ADD COLUMN is_spherical BOOLEAN,
+ADD COLUMN has_life  BOOLEAN,
+ADD COLUMN test2 INT,
+ADD COLUMN test3 INT,
+ADD COLUMN distance NUMERIC(4, 1); 
+
+Each "star" should have a foreign key that references one of the rows in galaxy
+ㄴ
+ALTER TABLE star ADD COLUMN star_id SERIAL PRIMARY KEY, 
+ADD COLUMN name VARCHAR(30) NOT NULL UNIQUE, 
+ADD COLUMN description TEXT NOT NULL, 
+ADD COLUMN is_spherical BOOLEAN,
+ADD COLUMN has_life  BOOLEAN,
+ADD COLUMN test2 INT,
+ADD COLUMN test3 INT,
+ADD COLUMN distance NUMERIC(4, 1),
+ADD COLUMN galaxy_id INT REFERENCES galaxy(galaxy_id); 
+
+Each "planet" should have a foreign key that references one of the rows in star
+ㄴ
+ALTER TABLE planet ADD COLUMN planet_id SERIAL PRIMARY KEY, 
+ADD COLUMN name VARCHAR(30) NOT NULL UNIQUE, 
+ADD COLUMN description TEXT NOT NULL, 
+ADD COLUMN is_spherical BOOLEAN,
+ADD COLUMN has_life  BOOLEAN,
+ADD COLUMN test2 INT,
+ADD COLUMN test3 INT,
+ADD COLUMN distance NUMERIC(4, 1),
+ADD COLUMN star_id INT REFERENCES star(star_id); 
+
+Each "moon" should have a foreign key that references one of the rows in planet
+ㄴ 
+ALTER TABLE moon ADD COLUMN moon_id SERIAL PRIMARY KEY, 
+ADD COLUMN name VARCHAR(30) NOT NULL UNIQUE, 
+ADD COLUMN description TEXT NOT NULL, 
+ADD COLUMN is_spherical BOOLEAN,
+ADD COLUMN has_life  BOOLEAN,
+ADD COLUMN test2 INT,
+ADD COLUMN test3 INT,
+ADD COLUMN distance NUMERIC(4, 1),
+ADD COLUMN planet_id INT REFERENCES planet(planet_id); 
+
+&&
+
+ALTER TABLE earth ADD COLUMN earth_id SERIAL PRIMARY KEY, 
+ADD COLUMN name VARCHAR(30) NOT NULL UNIQUE, 
+ADD COLUMN description TEXT NOT NULL, 
+ADD COLUMN is_spherical BOOLEAN,
+ADD COLUMN has_life  BOOLEAN,
+ADD COLUMN test2 INT,
+ADD COLUMN test3 INT,
+ADD COLUMN distance NUMERIC(4, 1);
+
+
+Each table should have at least three rows
+The galaxy and star tables should each have at least six rows
+The planet table should have at least 12 rows
+The moon table should have at least 20 rows
+ㄴ
+INSERT INTO galaxy(name, description, is_spherical, has_life, test2, test3, distance) VALUES('ga1','gaga',true, false, -1, -1, -1.0), ('ga2','gaga', true, false, -1, -1, -1.0), ('ga3','gaga',true, false, -1, -1, -1.0), ('ga4','gaga', true, false, -1, -1, -1.0), ('ga5','gaga',true, false, -1, -1, -1.0), ('ga6','gaga', true, false, -1, -1, -1.0);
+
+ALTER SEQUENCE galaxy_galaxy_id_seq RESTART WITH 1;
+
+
+INSERT INTO star(name, description, is_spherical, has_life, test2, test3, distance) VALUES('st1','gaga',true, false, -1, -1, -1.0), ('st2','gaga', true, false, -1, -1, -1.0), ('st3','gaga',true, false, -1, -1, -1.0), ('st4','gaga', true, false, -1, -1, -1.0), ('st5','gaga',true, false, -1, -1, -1.0), ('st6','gaga', true, false, -1, -1, -1.0);
+
+INSERT INTO star(galaxy_id) VALUES(1), (2), (3), (4), (5), (6);
+
+UPDATE star
+SET galaxy_id = CASE 
+	WHEN star_id = 1 THEN 1
+	WHEN star_id = 2 THEN 2
+	WHEN star_id = 3 THEN 3
+	WHEN star_id = 4 THEN 4
+	WHEN star_id = 5 THEN 5
+	WHEN star_id = 6 THEN 6
+	ELSE galaxy_id
+END
+WHERE star_id IN (1, 2, 3, 4, 5, 6)
+
+
+UPDATE star SET galaxy_id = 3 WHERE star_id = 1;
+
+
+
+INSERT INTO planet(name, description, is_spherical, has_life, test2, test3, distance) VALUES('pla1','plapla',true, false, -1, -1, -1.0), ('pla2','plapla',true, false, -1, -1, -1.0), ('pla3','plapla',true, false, -1, -1, -1.0), ('pla4','plapla',true, false, -1, -1, -1.0), ('pla5','plapla',true, false, -1, -1, -1.0), ('pla6','plapla',true, false, -1, -1, -1.0), ('pla7','plapla',true, false, -1, -1, -1.0), ('pla8','plapla',true, false, -1, -1, -1.0), ('pla9','plapla',true, false, -1, -1, -1.0), ('pla10','plapla',true, false, -1, -1, -1.0), ('pla11','plapla',true, false, -1, -1, -1.0), ('pla12','plapla',true, false, -1, -1, -1.0);
+
+
+INSERT INTO moon(name, description, is_spherical, has_life, test2, test3, distance) VALUES('mo1','momo',true, false, -1, -1, -1.0), ('mo2','momo',true, false, -1, -1, -1.0), ('mo3','momo',true, false, -1, -1, -1.0), ('mo4','momo',true, false, -1, -1, -1.0), ('mo5','momo',true, false, -1, -1, -1.0), ('mo6','momo',true, false, -1, -1, -1.0), ('mo7','momo',true, false, -1, -1, -1.0), ('mo8','momo',true, false, -1, -1, -1.0), ('mo9','momo',true, false, -1, -1, -1.0), ('mo10','momo',true, false, -1, -1, -1.0), ('mo11','momo',true, false, -1, -1, -1.0), ('mo12','momo',true, false, -1, -1, -1.0), ('mo13','momo',true, false, -1, -1, -1.0), ('mo14','momo',true, false, -1, -1, -1.0), ('mo15','momo',true, false, -1, -1, -1.0), ('mo16','momo',true, false, -1, -1, -1.0), ('mo17','momo',true, false, -1, -1, -1.0), ('mo18','momo',true, false, -1, -1, -1.0), ('mo19','momo',true, false, -1, -1, -1.0), ('mo20','momo',true, false, -1, -1, -1.0);
+
+INSERT INTO earth(name, description, is_spherical, has_life, test2, test3, distance) VALUES('ea1','momo',true, false, -1, -1, -1.0), ('ea2','momo',true, false, -1, -1, -1.0), ('ea3','momo',true, false, -1, -1, -1.0), ('ea4','momo',true, false, -1, -1, -1.0), ('ea5','momo',true, false, -1, -1, -1.0), ('ea6','momo',true, false, -1, -1, -1.0), ('ea7','momo',true, false, -1, -1, -1.0), ('ea8','momo',true, false, -1, -1, -1.0), ('ea9','momo',true, false, -1, -1, -1.0), ('ea10','momo',true, false, -1, -1, -1.0), ('ea11','momo',true, false, -1, -1, -1.0), ('ea12','momo',true, false, -1, -1, -1.0), ('ea13','momo',true, false, -1, -1, -1.0), ('ea14','momo',true, false, -1, -1, -1.0), ('ea15','momo',true, false, -1, -1, -1.0), ('ea16','momo',true, false, -1, -1, -1.0), ('ea17','momo',true, false, -1, -1, -1.0), ('ea18','momo',true, false, -1, -1, -1.0), ('ea19','momo',true, false, -1, -1, -1.0), ('ea20','momo',true, false, -1, -1, -1.0);
+
+
+
+
+
+
+
+
+
+
+
